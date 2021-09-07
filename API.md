@@ -8,13 +8,13 @@
 
 API: Application Programming Interface
 
-The app, in addition to the Common Voice API (official of Mozilla), use also "CV Android" API (better "Saverio Morelli API").
+The app, in addition to the official Mozilla Common Voice API uses "CV Android" API (better "Saverio Morelli API").
 
-In this file there will be listed just the second one.
+This document describes the latter.
 
-First of all you need to know that, all this API doesn't collect your personal information, like *name*, *last name*, *email*, *age*.
+First of all you need to know that, this API doesn't collect your personal information, like *name*, *last name*, *email*, *age*.
 
-Please, consider to **don't** insert useless data, because these are just to understand how many users use the app and how use it.
+Please, consider **not** inserting useless data, because the information is just to understand how many users use the app and how it is being used.
 
 ## App statistics
 
@@ -34,16 +34,16 @@ You can specify these parameters:
 
 #### Response
 
-The system return a `JSON` data, that contains data like this:
+The system returns `JSON` data, something of the form:
 
 `{"language":{"user":N1,"logged:"M1},"language2":{"user":N2,"logged":M2}}`, where `language` and `language2` are the language codes, `N1`, `N2`, `M1`, `M2` are integers.
 
-So, for each language this are the information:
+So, for each language the information is as follows:
 
 | Key      | Value     | Explanation                                                  |
 | -------- | --------- | ------------------------------------------------------------ |
-| `user`   | *Integer* | It indicates the number of users which used the app (just those users who turned on the "App statistics") |
-| `logged` | *Integer* | It indicates how many users used the app **and** were logged in (just users who turned on the "App statistics") |
+| `user`   | *Integer* | Indicates the number of users which used the app (just those users who enabled  "App statistics") |
+| `logged` | *Integer* | Indicates how many users used the app **and** were logged in (just users who enabled "App statistics") |
 
 ### POST
 
@@ -51,29 +51,29 @@ So, for each language this are the information:
 
 To insert data you need to do a `POST request` to https://www.saveriomorelli.com/api/common-voice-android/v2/.
 
-You need to send a `JSON` request with these data:
+You need to send a `JSON` request with the following data:
 
 | Key        | Value                               | Required   | Explanation                                                  |
 | ---------- | ----------------------------------- | ---------- | ------------------------------------------------------------ |
-| `logged`   | `0` or `1`                          | `required` | It's an integer value `0` if you use the app "anonymously" (without log-in), `1` if you are logged in |
-| `username` | *String*                            | `required` | It's a unique string generated just the first time you run the app (not every time you run it), and it doesn't contain personal data.<br />The string is like this: `UserYYYYMMDDHHMMSSMMMM::CVAppSav` |
-| `language` | *String*                            | `required` | It's the language code you are using the app (`en`, `it`, ...) |
-| `public`   | `true` or `false`                   | `required` | It's a flag: `true` if the statistics are public, so are shown in the graph, `false` if you have turned off the statistics |
-| `version`  | *Integer*                           | `required` | It's the version code of the app (`90`, `91`, ...)           |
-| `source`   | `GPS`, `FD-GH` or `HAG` (or `n.d.`) | `optional` | It indicates the source from you installed the app (`GPS`: Google Play Store, `FD-GH`: F-Droid/GitHub, `HAG`: Huawei AppGallery, `n.d.`: not defined) |
+| `logged`   | `0` or `1`                          | `required` | An integer value `0` if you use the app "anonymously" (without log-in), `1` if you are logged in |
+| `username` | *String*                            | `required` | A unique string generated the first time you run the app (not every time you run it), and it doesn't contain personal data.<br />The string is like this: `UserYYYYMMDDHHMMSSMMMM::CVAppSav` |
+| `language` | *String*                            | `required` | The language code you are using in the app (`en`, `it`, ...) |
+| `public`   | `true` or `false`                   | `required` | A flag: `true` if the statistics are public, so are shown in the graph, `false` if you have turned off the statistics |
+| `version`  | *Integer*                           | `required` | The version code of the app (`90`, `91`, ...)           |
+| `source`   | `GPS`, `FD-GH` or `HAG` (or `n.d.`) | `optional` | It indicates the source from which you installed the app (`GPS`: Google Play Store, `FD-GH`: F-Droid/GitHub, `HAG`: Huawei AppGallery, `n.d.`: not defined) |
 
 #### Response
 
-The `POST request` could returns these status code:
+The `POST request` could return one of these status codes:
 
 | Code  | Type    | Description                            | Explanation and possible fix                                 |
 | ----- | ------- | -------------------------------------- | ------------------------------------------------------------ |
 | `200` | `OK`    | `Record inserted correctly.`           | Data are valid and they are been inserted correctly          |
-| `400` | `Error` | `Record has already inserted today.`   | Invalid because data are already inserted today              |
-| `401` | `Error` | `Something was wrong in POST request.` | DB rejected the data, so try again or check them             |
-| `402` | `Error` | `Parameters are wrong, check them.`    | Parameters passed are incorrect or not enough                |
-| `403` | `Error` | `Can't insert record on database.`     | DB rejected the data, so try again or check data passed      |
-| `500` | `Error` | `Can't connect to the database.`       | It's unavailable the connection with the database in that moment |
+| `400` | `Error` | `Record has already been inserted today.`   | Invalid because data has already been inserted today              |
+| `401` | `Error` | `Something was wrong in POST request.` | DB rejected the data, so try again or double check it.             |
+| `402` | `Error` | `Problem with parameters, check them.`    | Parameters passed are invalid or too few/many                 |
+| `403` | `Error` | `Can't insert record into database.`     | DB rejected the data, so try again or check data passed      |
+| `500` | `Error` | `Can't connect to the database.`       | Unable to connect to the database at this time |
 
 
 
@@ -89,7 +89,7 @@ You can specify these parameters:
 
 | Key     | Value     | Required   | Explanation                                                  |
 | ------- | --------- | ---------- | ------------------------------------------------------------ |
-| `limit` | *Integer* | `optional` | You can specify an *Integer* which indicates the number of records (logs) you want to see.<br />If you'd like the last 100 logs, for example, you should specify `100`.<br />If you don't specify anything, it's `100` as default. The number have to be in 1 and 1000 interval. |
+| `limit` | *Integer* | `optional` | You can specify an *Integer* which indicates the number of records (logs) you want to see.<br />If you'd like the last 100 logs, for example, you should specify `100`.<br />If unspecified, the default of `100` entries are returned. The number has to be in the range 1 - 1000. |
 
 #### Response
 
@@ -103,18 +103,18 @@ The system returns a `JSON` file, which has a counter from `1` , and it contains
 | `logDate`  | *DateTime* | It's the data when the log was verified.                     |
 | `date`     | *DateTime* | It's the date when the log was added in the system           |
 | `language` | *String*   | It's the language code you are using the app (`en`, `it`, ...) |
-| `version`  | *Integer*  | It's the version code of the app (`90`, `91`, ...)           |
-| `source`   | *String*   | It indicates the source from you installed the app (GPS: Google Play Store, FD-GH: F-Droid/GitHub) |
-| `logged`   | `0` or `1` | It's an integer value `0` if you use the app "anonymously" (without log-in), `1` if you are logged in |
+| `version`  | *Integer*  | The version code of the app (`90`, `91`, ...)           |
+| `source`   | *String*   | It indicates the source from which you installed the app (GPS: Google Play Store, FD-GH: F-Droid/GitHub) |
+| `logged`   | `0` or `1` | An integer value `0` if you use the app "anonymously" (without log-in), `1` if you are logged in |
 
 `log`:
 
 | Key              | Value    | Explanation                                                  |
 | ---------------- | -------- | ------------------------------------------------------------ |
-| `errorLevel`     | *String* | It indicates shortly which type of message it is (like `Error`, `Warning`, etc.) |
-| `tag`            | *Text*   | It's a string which indicates the class name where the error happened |
-| `stackTrace`     | *Text*   | It's the description of the error                            |
-| `additionalLogs` | *Text*   | `optional` \It's omre information (context) about the error. This field is not required. |
+| `errorLevel`     | *String* | Short string indicating the message type (such as `Error`, `Warning`, etc.) |
+| `tag`            | *Text*   | A string which indicates the class name where the error happened |
+| `stackTrace`     | *Text*   | The description of the error                            |
+| `additionalLogs` | *Text*   | `optional` Further contextual information about the error. This field is not required. |
 
 
 
@@ -126,15 +126,15 @@ To insert data you need to do a POST request to https://www.saveriomorelli.com/a
 
 | Key              | Value                               | Required   | Explanation                                                  |
 | ---------------- | ----------------------------------- | ---------- | ------------------------------------------------------------ |
-| `logDate`        | *DateTime*                          | `required` | It's the datetime when the issue is verified. This could be different from the datetime when the log arrives in the database.<br>The format of this data should be: `YYYY-MM-DD HH:MM:SS`. |
-| `logged`         | `0` or `1`                          | `required` | It's an integer value `0` if you use the app "anonymously" (without log-in), `1` if you are logged in |
-| `language`       | *String*                            | `required` | It's the language code you are using the app (`en`, `it`, ...) |
-| `version`        | *Integer*                           | `required` | It's the version code of the app (`90`, `91`, ...)           |
-| `source`         | `GPS`, `FD-GH` or `HAG` (or `n.d.`) | `required` | It indicates the source from you installed the app (`GPS`: Google Play Store, `FD-GH`: F-Droid/GitHub, `HAG`: Huawei AppGallery, `n.d.`: not defined) |
-| `errorLevel`     | *String*                            | `required` | It's string which indicates the error level, like `Info`, `Error`, `Warning`, etc. |
-| `tag`            | *Text*                              | `optional` | It's a string which indicates the class name where the error happened |
-| `stackTrace`     | *Text*                              | `required` | It's the description of the error                            |
-| `additionalLogs` | *Text*                              | `optional` | It's more information (context) about the error. This field is not required. |
+| `logDate`        | *DateTime*                          | `required` | The datetime when the issue is verified. This could be different from the datetime when the log arrives in the database.<br>The format of this data should be: `YYYY-MM-DD HH:MM:SS`. |
+| `logged`         | `0` or `1`                          | `required` | An integer value `0` if you use the app "anonymously" (without log-in), `1` if you are logged in |
+| `language`       | *String*                            | `required` | The language code you are using in the app (`en`, `it`, ...) |
+| `version`        | *Integer*                           | `required` | The version code of the app (`90`, `91`, ...)           |
+| `source`         | `GPS`, `FD-GH` or `HAG` (or `n.d.`) | `required` | Indicates the source from which you installed the app (`GPS`: Google Play Store, `FD-GH`: F-Droid/GitHub, `HAG`: Huawei AppGallery, `n.d.`: not defined) |
+| `errorLevel`     | *String*                            | `required` | String which indicates the error level, such as `Info`, `Error`, `Warning`, etc. |
+| `tag`            | *Text*                              | `optional` | A string which indicates the class name where the error happened |
+| `stackTrace`     | *Text*                              | `required` | The description of the error                            |
+| `additionalLogs` | *Text*                              | `optional` | Further contextual information about the error. This field is not required. |
 
 
 
@@ -142,10 +142,10 @@ To insert data you need to do a POST request to https://www.saveriomorelli.com/a
 
 | Code  | Type    | Description                        | Explanation and possible fix                                 |
 | ----- | ------- | ---------------------------------- | ------------------------------------------------------------ |
-| `200` | `OK`    | `Record inserted correctly.`       | Record inserted correctly in the database                    |
-| `400` | `Error` | `Can't insert record on database.` | DB rejected the data, so try again or check data passed      |
-| `401` | `Error` | `Parameters are not enough.`       | Parameters are not enough or they are too much.              |
-| `500` | `Error` | `Can't connect to the database.`   | It's unavailable the connection with the database in that moment |
+| `200` | `OK`    | `Record inserted correctly.`       | Record inserted correctly into the database                    |
+| `400` | `Error` | `Can't insert record into database.` | DB rejected the data, so try again or check data passed      |
+| `401` | `Error` | `Problem with Parameters.`       | Too few/many Parameters.              |
+| `500` | `Error` | `Can't connect to the database.`       | Unable to connect to the database at this time |
 
 
 
